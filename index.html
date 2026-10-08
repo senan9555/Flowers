@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 
 <meta
@@ -19,6 +20,7 @@
 <title>For You</title>
 
 <style>
+
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Parisienne&display=swap');
 
 * {
@@ -520,12 +522,6 @@ body::before {
 .tulip-image {
     display: block;
 
-    /*
-       BÖYÜDÜLDÜ:
-       əvvəl 78% idi,
-       indi 105%.
-    */
-
     width: min(105%, 285px);
 
     height: auto;
@@ -537,10 +533,6 @@ body::before {
             5px 13px 10px
             rgba(55,65,35,.16)
         );
-
-    /*
-       Bir az yuxarı:
-    */
 
     transform:
         translateY(-8px)
@@ -668,11 +660,6 @@ body::before {
             24px 16px 24px 19px;
     }
 
-    /*
-       Böyük lalə kiçik ekranda da
-       kifayət qədər böyük qalır.
-    */
-
     .tulip-image {
         width: 100%;
     }
@@ -762,6 +749,7 @@ body::before {
         font-size: 24px;
     }
 }
+
 </style>
 </head>
 
@@ -769,9 +757,7 @@ body::before {
 
 <div class="stage">
 
-    <!-- =========================================
-         CLOSED ENVELOPE
-    ========================================== -->
+    <!-- CLOSED ENVELOPE -->
 
     <div
         class="envelope"
@@ -803,9 +789,7 @@ body::before {
     </div>
 
 
-    <!-- =========================================
-         OPEN CARD
-    ========================================== -->
+    <!-- OPEN CARD -->
 
     <div
         class="card"
@@ -870,55 +854,12 @@ body::before {
 
 <script>
 
-const envelope =
-    document.getElementById("envelope");
-
-const card =
-    document.getElementById("card");
-
-let opened = false;
-
-function openCard() {
-
-    if (opened) return;
-
-    opened = true;
-
-    envelope.classList.add("is-open");
-
-    setTimeout(() => {
-
-        envelope.classList.add("opened");
-
-        card.classList.add("visible");
-
-        card.setAttribute(
-            "aria-hidden",
-            "false"
-        );
-
-    }, 750);
-}
-
-
-/* iPhone Safari + Android */
-
-envelope.addEventListener(
-    "click",
-    openCard
-);
-
-
-/* keyboard */
-
-  <script>
-
 /* =========================================
    PAGE VIEW COUNTER
-========================================= */
+   ========================================= */
 
 const COUNTER_KEY =
-    "things_cannot_be_measured_2026_9x7k2m4p";
+    "collection_card_2026_8x4m7q2p";
 
 fetch(
     "https://countapi.mileshilliard.com/api/v1/hit/" +
@@ -928,74 +869,14 @@ fetch(
         cache: "no-store",
         keepalive: true
     }
-).catch(() => {});
-
-
-/* =========================================
-   CARD
-========================================= */
-
-const envelope =
-    document.getElementById("envelope");
-
-const card =
-    document.getElementById("card");
-
-let opened = false;
-
-function openCard() {
-
-    if (opened) return;
-
-    opened = true;
-
-    envelope.classList.add("is-open");
-
-    setTimeout(() => {
-
-        envelope.classList.add("opened");
-
-        card.classList.add("visible");
-
-        card.setAttribute(
-            "aria-hidden",
-            "false"
-        );
-
-    }, 750);
-}
-
-
-/* iPhone Safari + Android */
-
-envelope.addEventListener(
-    "click",
-    openCard
-);
-
-
-/* keyboard */
-
-  <script>
-
-/* =========================================
-   PAGE VIEW COUNTER
-========================================= */
-
-const COUNTER_KEY =
-    "things_cannot_be_measured_2026_9x7k2m4p";
-
-fetch(
-    "https://countapi.mileshilliard.com/api/v1/hit/" + COUNTER_KEY,
-    {
-        cache: "no-store"
-    }
-).catch(function() {});
+).catch(function () {
+    /* Counter failure must never affect the card */
+});
 
 
 /* =========================================
    CARD OPENING
-========================================= */
+   ========================================= */
 
 const envelope =
     document.getElementById("envelope");
@@ -1013,7 +894,7 @@ function openCard() {
 
     envelope.classList.add("is-open");
 
-    setTimeout(function() {
+    setTimeout(function () {
 
         envelope.classList.add("opened");
 
@@ -1040,7 +921,7 @@ envelope.addEventListener(
 
 envelope.addEventListener(
     "keydown",
-    function(event) {
+    function (event) {
 
         if (
             event.key === "Enter" ||
@@ -1050,12 +931,13 @@ envelope.addEventListener(
             event.preventDefault();
 
             openCard();
+
         }
 
     }
 );
 
-</script> 
+</script>
 
 </body>
 </html> 

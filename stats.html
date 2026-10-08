@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,
+             initial-scale=1,
+             maximum-scale=1,
+             user-scalable=no"
+>
+
+<title>Visits</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    background:
+        linear-gradient(
+            135deg,
+            #d9d0bd,
+            #eee8da 48%,
+            #d4c8b2
+        );
+
+    color: #332e28;
+}
+
+.box {
+
+    width: min(90vw, 380px);
+
+    padding: 45px 28px;
+
+    text-align: center;
+
+    background: #faf6ed;
+
+    border:
+        1px solid
+        rgba(82,65,44,.13);
+
+    box-shadow:
+        0 20px 45px
+        rgba(57,44,27,.16);
+}
+
+.label {
+
+    margin: 0 0 18px;
+
+    font-size: 16px;
+
+    letter-spacing: 3px;
+
+    text-transform: uppercase;
+
+    opacity: .65;
+}
+
+.count {
+
+    margin: 0;
+
+    font-size: 68px;
+
+    line-height: 1;
+
+    font-weight: 400;
+}
+
+button {
+
+    margin-top: 30px;
+
+    padding: 9px 20px;
+
+    border:
+        1px solid
+        rgba(82,65,44,.20);
+
+    background: transparent;
+
+    color: #332e28;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+    <p class="label">
+        Visits
+    </p>
+
+    <p
+        class="count"
+        id="count"
+    >
+        …
+    </p>
+
+    <button onclick="loadCount()">
+        Refresh
+    </button>
+
+</div>
+
+
+<script>
+
+const COUNTER_KEY =
+    "things_cannot_be_measured_2026_9x7k2m4p";
+
+
+async function loadCount() {
+
+    try {
+
+        const response =
+            await fetch(
+                "https://countapi.mileshilliard.com/api/v1/get/" +
+                COUNTER_KEY,
+                {
+                    cache: "no-store"
+                }
+            );
+
+        const data =
+            await response.json();
+
+        document.getElementById("count")
+            .textContent =
+            data.value ?? "—";
+
+    }
+
+    catch (error) {
+
+        document.getElementById("count")
+            .textContent = "—";
+
+    }
+
+}
+
+
+loadCount();
+
+</script>
+
+</body>
+
+</html> 

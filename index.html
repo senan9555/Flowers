@@ -143,8 +143,6 @@ body::before {
     pointer-events: none;
 }
 
-/* envelope body */
-
 .envelope-body {
     position: absolute;
     inset: 0;
@@ -181,8 +179,6 @@ body::before {
             transparent 5px
         );
 }
-
-/* envelope folds */
 
 .fold-left,
 .fold-right,
@@ -460,8 +456,6 @@ body::before {
     pointer-events: auto;
 }
 
-/* inside border */
-
 .card::before {
     content: "";
 
@@ -476,8 +470,6 @@ body::before {
 
     pointer-events: none;
 }
-
-/* center fold */
 
 .card::after {
     content: "";
@@ -522,13 +514,19 @@ body::before {
 }
 
 /* =========================================
-   REAL TULIP IMAGE
+   REAL TULIP
 ========================================= */
 
 .tulip-image {
     display: block;
 
-    width: min(78%, 210px);
+    /*
+       BÖYÜDÜLDÜ:
+       əvvəl 78% idi,
+       indi 105%.
+    */
+
+    width: min(105%, 285px);
 
     height: auto;
 
@@ -540,8 +538,12 @@ body::before {
             rgba(55,65,35,.16)
         );
 
+    /*
+       Bir az yuxarı:
+    */
+
     transform:
-        translateY(2px)
+        translateY(-8px)
         rotate(-2deg);
 
     user-select: none;
@@ -666,8 +668,13 @@ body::before {
             24px 16px 24px 19px;
     }
 
+    /*
+       Böyük lalə kiçik ekranda da
+       kifayət qədər böyük qalır.
+    */
+
     .tulip-image {
-        width: 82%;
+        width: 100%;
     }
 
     .message .opening {
@@ -707,7 +714,7 @@ body::before {
     }
 
     .tulip-image {
-        width: 76%;
+        width: 96%;
     }
 
     .message .opening {
@@ -739,7 +746,7 @@ body::before {
     }
 
     .tulip-image {
-        width: 80%;
+        width: 100%;
     }
 
     .message .opening {

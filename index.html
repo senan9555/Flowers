@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>For You</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Parisienne&display=swap');
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background:
+        radial-gradient(circle at 50% 20%, rgba(255,255,255,.55), transparent 35%),
+        linear-gradient(135deg, #d9d0bd, #eee8da 48%, #d4c8b2);
+    color: #302c27;
+    font-family: "Cormorant Garamond", Georgia, serif;
+}
+
+/* subtle paper atmosphere */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: .16;
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            rgba(80,60,35,.025) 0px,
+            rgba(80,60,35,.025) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+}
+
+/* =========================
+   STAGE
+========================= */
+
+.stage {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1400px;
+    padding: 22px;
+}
+
+/* =========================
+   ENVELOPE
+========================= */
+
+.envelope {
+    position: relative;
+    width: min(88vw, 430px);
+    aspect-ratio: 1.48 / 1;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition:
+        transform 1.2s cubic-bezier(.2,.7,.2,1),
+        opacity .8s ease;
+    filter: drop-shadow(0 22px 30px rgba(52,42,27,.20));
+}
+
+.envelope.opened {
+    transform: translateY(22vh) scale(.72);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* envelope body */
+.envelope-body {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(145deg, #f8f3e8, #e9dfcc);
+    border: 1px solid rgba(82,65,44,.16);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* paper texture */
+.envelope-body::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: .22;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            rgba(90,70,45,.025) 0,
+            rgba(90,70,45,.025) 1px,
+            transparent 1px,
+            transparent 5px
+        );
+}
+
+/* lower folds */
+.fold-left,
+.fold-right,
+.fold-bottom {
+    position: absolute;
+    z-index: 2;
+    border-style: solid;
+    pointer-events: none;
+}
+
+.fold-left {
+    left: 0;
+    bottom: 0;
+    width: 50%;
+    height: 100%;
+    border-width: 0 0 1px 1px;
+    border-color: rgba(70,54,35,.13);
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+.fold-right {
+    right: 0;
+    bottom: 0;
+    width: 50%;
+    height: 100%;
+    border-width: 0 1px 1px 0;
+    border-color: rgba(70,54,35,.13);
+    clip-path: polygon(100% 0, 100% 100%, 0 50%);
+}
+
+.fold-bottom {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 50%;
+    border-width: 0 0 1px 0;
+    border-color: rgba(70,54,35,.12);
+    clip-path: polygon(0 100%, 50% 0, 100% 100%);
+}
+
+/* =========================
+   FLAP
+========================= */
+
+.flap {
+    position: absolute;
+    z-index: 8;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 58%;
+    transform-origin: top center;
+    transform-style: preserve-3d;
+    transition:
+        transform 1.15s cubic-bezier(.18,.75,.22,1);
+}
+
+.flap-face {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(145deg, #faf6ed, #e9dfce);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    border-top: 1px solid rgba(80,62,40,.12);
+    backface-visibility: hidden;
+}
+
+.flap::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 1px;
+    height: 45%;
+    background: rgba(85,66,43,.09);
+    transform: translateX(-50%);
+}
+
+.envelope.is-open .flap {
+    transform: rotateX(-180deg);
+}
+
+/* =========================
+   FRONT TEXT
+========================= */
+
+.collection {
+    position: absolute;
+    z-index: 10;
+    top: 24%;
+    left: 50%;
+    width: 80%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-family: "Parisienne", cursive;
+    font-size: clamp(25px, 7vw, 38px);
+    line-height: 1.08;
+    color: #3d352d;
+    pointer-events: none;
+    transition: opacity .45s ease;
+}
+
+.envelope.is-open .collection {
+    opacity: 0;
+}
+
+/* tiny tulip seal */
+.seal {
+    position: absolute;
+    z-index: 12;
+    left: 50%;
+    bottom: 17%;
+    width: 58px;
+    height: 58px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #d7c7a9, #9f8861);
+    box-shadow:
+        0 5px 12px rgba(54,42,26,.18),
+        inset 0 1px 2px rgba(255,255,255,.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity .4s ease;
+}
+
+.seal span {
+    font-size: 27px;
+    filter: grayscale(.2);
+}
+
+.envelope.is-open .seal {
+    opacity: 0;
+}
+
+/* =========================
+   OPEN CARD
+========================= */
+
+.card {
+    position: absolute;
+    z-index: 2;
+    width: min(91vw, 470px);
+    min-height: min(78vh, 650px);
+    max-height: 82vh;
+    padding: 42px 32px 38px;
+    background:
+        linear-gradient(145deg, #faf6ed, #eee5d5);
+    border: 1px solid rgba(82,65,44,.13);
+    box-shadow:
+        0 25px 55px rgba(57,44,27,.18),
+        inset 0 0 35px rgba(130,105,70,.035);
+    transform: translateY(20px) scale(.88);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+        transform 1.15s cubic-bezier(.18,.75,.22,1) .35s,
+        opacity .7s ease .35s;
+    overflow: hidden;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 13px;
+    border: 1px solid rgba(92,70,43,.09);
+    pointer-events: none;
+}
+
+.card.visible {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* =========================
+   TULIP
+========================= */
+
+.tulip-area {
+    position: relative;
+    width: 100%;
+    height: 205px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+}
+
+.tulip {
+    position: relative;
+    width: 145px;
+    height: 195px;
+    filter: drop-shadow(5px 12px 10px rgba(50,55,31,.14));
+}
+
+/* stem */
+.stem {
+    position: absolute;
+    left: 70px;
+    top: 72px;
+    width: 8px;
+    height: 116px;
+    border-radius: 100%;
+    background:
+        linear-gradient(
+            90deg,
+            #567046,
+            #78905e 48%,
+            #405b37
+        );
+    transform: rotate(2deg);
+}
+
+/* leaves */
+.leaf {
+    position: absolute;
+    background:
+        linear-gradient(
+            100deg,
+            #334d31,
+            #71875b 45%,
+            #425e38
+        );
+    border-radius: 100% 0 100% 0;
+    transform-origin: bottom;
+}
+
+.leaf.one {
+    width: 38px;
+    height: 105px;
+    left: 38px;
+    top: 78px;
+    transform: rotate(-29deg);
+}
+
+.leaf.two {
+    width: 35px;
+    height: 112px;
+    left: 79px;
+    top: 72px;
+    transform: rotate(29deg) scaleX(.95);
+}
+
+/* realistic-ish layered tulip petals */
+.flower {
+    position: absolute;
+    left: 25px;
+    top: 0;
+    width: 96px;
+    height: 92px;
+}
+
+.petal {
+    position: absolute;
+    bottom: 0;
+    background:
+        linear-gradient(
+            110deg,
+            #ffffff 5%,
+            #f7f3e9 42%,
+            #ded8ca 100%
+        );
+    box-shadow:
+        inset 3px 0 5px rgba(150,140,120,.08),
+        inset -3px 0 5px rgba(150,140,120,.08);
+    border-radius: 48% 48% 28% 28%;
+    transform-origin: bottom center;
+}
+
+.petal.back-left {
+    width: 48px;
+    height: 77px;
+    left: 5px;
+    transform: rotate(-19deg);
+}
+
+.petal.back-right {
+    width: 48px;
+    height: 77px;
+    right: 5px;
+    transform: rotate(19deg);
+}
+
+.petal.center {
+    width: 55px;
+    height: 88px;
+    left: 20px;
+    z-index: 4;
+}
+
+.petal.front-left {
+    width: 45px;
+    height: 68px;
+    left: 8px;
+    z-index: 5;
+    transform: rotate(-7deg);
+}
+
+.petal.front-right {
+    width: 45px;
+    height: 68px;
+    right: 8px;
+    z-index: 5;
+    transform: rotate(7deg);
+}
+
+.petal::after {
+    content: "";
+    position: absolute;
+    top: 9px;
+    bottom: 15px;
+    left: 50%;
+    width: 1px;
+    background: rgba(160,150,130,.13);
+}
+
+/* =========================
+   MESSAGE
+========================= */
+
+.message {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    color: #332e28;
+}
+
+.message .opening {
+    font-size: clamp(23px, 6vw, 31px);
+    line-height: 1.18;
+    font-weight: 500;
+    margin: 0 0 24px;
+}
+
+.message .body {
+    font-size: clamp(18px, 4.6vw, 23px);
+    line-height: 1.38;
+    margin: 0;
+    letter-spacing: .01em;
+}
+
+.message .quiet {
+    font-style: italic;
+    margin-top: 7px;
+}
+
+.message .realization {
+    margin-top: 27px;
+    font-size: clamp(18px, 4.8vw, 23px);
+    line-height: 1.4;
+}
+
+.message .final {
+    margin-top: 30px;
+    font-family: "Parisienne", cursive;
+    font-size: clamp(29px, 8vw, 42px);
+    line-height: 1.05;
+    color: #29231e;
+}
+
+/* tiny divider */
+.divider {
+    margin: 25px auto 0;
+    width: 75px;
+    height: 1px;
+    background: rgba(70,55,38,.28);
+    position: relative;
+}
+
+.divider::after {
+    content: "♡";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -54%);
+    background: #f3ecdf;
+    padding: 0 8px;
+    font-size: 14px;
+    color: #655746;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-height: 700px) {
+    .card {
+        min-height: 88vh;
+        padding: 25px 25px 25px;
+    }
+
+    .tulip-area {
+        height: 150px;
+        transform: scale(.78);
+        margin-top: -15px;
+        margin-bottom: -5px;
+    }
+
+    .message .opening {
+        margin-bottom: 15px;
+    }
+
+    .message .realization {
+        margin-top: 18px;
+    }
+
+    .message .final {
+        margin-top: 19px;
+    }
+
+    .divider {
+        margin-top: 17px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="stage">
+
+    <!-- CLOSED ENVELOPE -->
+    <div class="envelope" id="envelope">
+
+        <div class="envelope-body">
+            <div class="fold-left"></div>
+            <div class="fold-right"></div>
+            <div class="fold-bottom"></div>
+        </div>
+
+        <div class="flap">
+            <div class="flap-face"></div>
+        </div>
+
+        <div class="collection">
+            Another one for<br>
+            the collection. 😅
+        </div>
+
+        <div class="seal">
+            <span>🌷</span>
+        </div>
+
+    </div>
+
+    <!-- OPEN CARD -->
+    <div class="card" id="card">
+
+        <div class="tulip-area">
+
+            <div class="tulip">
+
+                <div class="flower">
+                    <div class="petal back-left"></div>
+                    <div class="petal back-right"></div>
+                    <div class="petal center"></div>
+                    <div class="petal front-left"></div>
+                    <div class="petal front-right"></div>
+                </div>
+
+                <div class="stem"></div>
+                <div class="leaf one"></div>
+                <div class="leaf two"></div>
+
+            </div>
+
+        </div>
+
+        <div class="message">
+
+            <p class="opening">
+                Some things cannot be explained<br>
+                by a single moment.
+            </p>
+
+            <p class="body">
+                They grow quietly,
+            </p>
+
+            <p class="body quiet">
+                somewhere between conversations, memories,<br>
+                and all the ordinary moments we don't think much about.
+            </p>
+
+            <p class="realization">
+                Until one day, you realize<br>
+                that someone's presence has become<br>
+                something you deeply value.
+            </p>
+
+            <p class="final">
+                You are one of those people.
+            </p>
+
+            <div class="divider"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const envelope = document.getElementById("envelope");
+const card = document.getElementById("card");
+
+let opened = false;
+
+function openCard() {
+
+    if (opened) return;
+
+    opened = true;
+
+    envelope.classList.add("is-open");
+
+    setTimeout(() => {
+        envelope.classList.add("opened");
+        card.classList.add("visible");
+    }, 700);
+}
+
+envelope.addEventListener("click", openCard);
+
+envelope.addEventListener("touchend", function(e) {
+    e.preventDefault();
+    openCard();
+}, { passive: false });
+
+</script>
+
+</body>
+</html>

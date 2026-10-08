@@ -976,6 +976,68 @@ envelope.addEventListener(
 
 /* keyboard */
 
+  <script>
+
+/* =========================================
+   PAGE VIEW COUNTER
+========================================= */
+
+const COUNTER_KEY =
+    "things_cannot_be_measured_2026_9x7k2m4p";
+
+fetch(
+    "https://countapi.mileshilliard.com/api/v1/hit/" + COUNTER_KEY,
+    {
+        cache: "no-store"
+    }
+).catch(function() {});
+
+
+/* =========================================
+   CARD OPENING
+========================================= */
+
+const envelope =
+    document.getElementById("envelope");
+
+const card =
+    document.getElementById("card");
+
+let opened = false;
+
+function openCard() {
+
+    if (opened) return;
+
+    opened = true;
+
+    envelope.classList.add("is-open");
+
+    setTimeout(function() {
+
+        envelope.classList.add("opened");
+
+        card.classList.add("visible");
+
+        card.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+    }, 750);
+}
+
+
+/* iPhone Safari + Android */
+
+envelope.addEventListener(
+    "click",
+    openCard
+);
+
+
+/* Keyboard */
+
 envelope.addEventListener(
     "keydown",
     function(event) {

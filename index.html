@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 
 <meta
-    name="viewport"
-    content="width=device-width,
-             initial-scale=1,
-             maximum-scale=1,
-             user-scalable=no,
-             viewport-fit=cover"
+  name="viewport"
+  content="width=device-width,
+           initial-scale=1,
+           maximum-scale=1,
+           user-scalable=no,
+           viewport-fit=cover"
 >
 
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -33,16 +33,25 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-
     overflow: hidden;
-
     overscroll-behavior: none;
     touch-action: manipulation;
-
-    background: #e5ddce;
 }
 
 body {
+    background:
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(255,255,255,.55),
+            transparent 38%
+        ),
+        linear-gradient(
+            135deg,
+            #d9d0bd,
+            #eee8da 48%,
+            #d4c8b2
+        );
+
     color: #302b25;
 
     font-family:
@@ -55,18 +64,11 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-/* =====================================================
-   BACKGROUND
-===================================================== */
-
 body::before {
     content: "";
-
     position: fixed;
     inset: 0;
-
     pointer-events: none;
-
     opacity: .15;
 
     background:
@@ -79,9 +81,9 @@ body::before {
         );
 }
 
-/* =====================================================
+/* =========================================
    STAGE
-===================================================== */
+========================================= */
 
 .stage {
     position: relative;
@@ -89,11 +91,9 @@ body::before {
     width: 100%;
     height: 100vh;
     height: 100dvh;
-
     min-height: 100svh;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
@@ -104,19 +104,17 @@ body::before {
         max(16px, env(safe-area-inset-left));
 
     perspective: 1400px;
-
     overflow: hidden;
 }
 
-/* =====================================================
+/* =========================================
    CLOSED ENVELOPE
-===================================================== */
+========================================= */
 
 .envelope {
     position: relative;
 
     width: min(88vw, 430px);
-
     aspect-ratio: 1.48 / 1;
 
     cursor: pointer;
@@ -142,7 +140,6 @@ body::before {
         scale(.72);
 
     opacity: 0;
-
     pointer-events: none;
 }
 
@@ -150,7 +147,6 @@ body::before {
 
 .envelope-body {
     position: absolute;
-
     inset: 0;
 
     overflow: hidden;
@@ -172,7 +168,6 @@ body::before {
     content: "";
 
     position: absolute;
-
     inset: 0;
 
     opacity: .18;
@@ -187,15 +182,13 @@ body::before {
         );
 }
 
-/* folds */
+/* envelope folds */
 
 .fold-left,
 .fold-right,
 .fold-bottom {
     position: absolute;
-
     z-index: 2;
-
     pointer-events: none;
 }
 
@@ -259,9 +252,9 @@ body::before {
         1px solid rgba(70,54,35,.10);
 }
 
-/* =====================================================
-   FLAP
-===================================================== */
+/* =========================================
+   ENVELOPE FLAP
+========================================= */
 
 .flap {
     position: absolute;
@@ -275,12 +268,10 @@ body::before {
     height: 58%;
 
     transform-origin: top center;
-
     transform-style: preserve-3d;
 
     transition:
-        transform
-        1.15s
+        transform 1.15s
         cubic-bezier(.18,.75,.22,1);
 
     pointer-events: none;
@@ -288,7 +279,6 @@ body::before {
 
 .flap-face {
     position: absolute;
-
     inset: 0;
 
     clip-path:
@@ -316,9 +306,9 @@ body::before {
     transform: rotateX(-180deg);
 }
 
-/* =====================================================
+/* =========================================
    COLLECTION TEXT
-===================================================== */
+========================================= */
 
 .collection {
     position: absolute;
@@ -356,9 +346,9 @@ body::before {
     opacity: 0;
 }
 
-/* =====================================================
+/* =========================================
    SEAL
-===================================================== */
+========================================= */
 
 .seal {
     position: absolute;
@@ -384,11 +374,8 @@ body::before {
         );
 
     box-shadow:
-        0 5px 12px
-        rgba(54,42,26,.18),
-
-        inset 0 1px 2px
-        rgba(255,255,255,.45);
+        0 5px 12px rgba(54,42,26,.18),
+        inset 0 1px 2px rgba(255,255,255,.45);
 
     display: flex;
     align-items: center;
@@ -402,7 +389,6 @@ body::before {
     content: "✦";
 
     color: #6e5b3f;
-
     font-size: 22px;
 }
 
@@ -410,9 +396,9 @@ body::before {
     opacity: 0;
 }
 
-/* =====================================================
+/* =========================================
    OPEN CARD
-===================================================== */
+========================================= */
 
 .card {
     position: absolute;
@@ -420,17 +406,11 @@ body::before {
     z-index: 3;
 
     width: min(94vw, 640px);
-
-    /*
-       Slightly shorter than before.
-       This gives the text more horizontal room.
-    */
     height: min(72vh, 590px);
 
     display: grid;
 
-    grid-template-columns:
-        43% 57%;
+    grid-template-columns: 43% 57%;
 
     overflow: hidden;
 
@@ -524,9 +504,9 @@ body::before {
         );
 }
 
-/* =====================================================
+/* =========================================
    LEFT PAGE
-===================================================== */
+========================================= */
 
 .left-page {
     position: relative;
@@ -541,202 +521,37 @@ body::before {
     padding: 15px;
 }
 
-/* =====================================================
-   TULIP
-===================================================== */
+/* =========================================
+   REAL TULIP IMAGE
+========================================= */
 
-.tulip {
-    position: relative;
+.tulip-image {
+    display: block;
 
-    width: 145px;
-    height: 330px;
+    width: min(78%, 210px);
+
+    height: auto;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(
+            5px 13px 10px
+            rgba(55,65,35,.16)
+        );
 
     transform:
+        translateY(2px)
         rotate(-2deg);
+
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
 }
 
-/* stem */
-
-.stem {
-    position: absolute;
-
-    left: 69px;
-    top: 104px;
-
-    width: 7px;
-    height: 205px;
-
-    border-radius: 100%;
-
-    background:
-        linear-gradient(
-            90deg,
-            #3d5b36,
-            #78915d 45%,
-            #3b5734
-        );
-}
-
-/* leaves */
-
-.leaf {
-    position: absolute;
-
-    border-radius:
-        100% 0 100% 0;
-
-    background:
-        linear-gradient(
-            100deg,
-            #304b2e,
-            #748d5b 45%,
-            #405e36
-        );
-
-    transform-origin:
-        bottom center;
-
-    box-shadow:
-        inset 2px 0 3px
-        rgba(255,255,255,.08);
-}
-
-.leaf.one {
-    width: 43px;
-    height: 142px;
-
-    left: 27px;
-    top: 153px;
-
-    transform:
-        rotate(-27deg);
-}
-
-.leaf.two {
-    width: 40px;
-    height: 150px;
-
-    left: 73px;
-    top: 145px;
-
-    transform:
-        rotate(28deg);
-}
-
-/* flower */
-
-.flower {
-    position: absolute;
-
-    left: 16px;
-    top: 13px;
-
-    width: 112px;
-    height: 108px;
-}
-
-.petal {
-    position: absolute;
-
-    bottom: 0;
-
-    border-radius:
-        48% 48% 28% 28%;
-
-    background:
-        linear-gradient(
-            110deg,
-            #ffffff 4%,
-            #f7f3e9 43%,
-            #dcd6c8 100%
-        );
-
-    box-shadow:
-        inset 3px 0 7px
-        rgba(150,140,120,.08),
-
-        inset -3px 0 7px
-        rgba(150,140,120,.08),
-
-        0 3px 6px
-        rgba(100,90,70,.06);
-
-    transform-origin:
-        bottom center;
-}
-
-.petal.back-left {
-    width: 55px;
-    height: 91px;
-
-    left: 3px;
-
-    transform:
-        rotate(-18deg);
-}
-
-.petal.back-right {
-    width: 55px;
-    height: 91px;
-
-    right: 3px;
-
-    transform:
-        rotate(18deg);
-}
-
-.petal.center {
-    width: 60px;
-    height: 101px;
-
-    left: 26px;
-
-    z-index: 4;
-}
-
-.petal.front-left {
-    width: 50px;
-    height: 79px;
-
-    left: 10px;
-
-    z-index: 5;
-
-    transform:
-        rotate(-7deg);
-}
-
-.petal.front-right {
-    width: 50px;
-    height: 79px;
-
-    right: 10px;
-
-    z-index: 5;
-
-    transform:
-        rotate(7deg);
-}
-
-.petal::after {
-    content: "";
-
-    position: absolute;
-
-    top: 9px;
-    bottom: 13px;
-
-    left: 50%;
-
-    width: 1px;
-
-    background:
-        rgba(160,150,130,.11);
-}
-
-/* =====================================================
+/* =========================================
    RIGHT PAGE
-===================================================== */
+========================================= */
 
 .right-page {
     position: relative;
@@ -751,9 +566,9 @@ body::before {
     overflow: hidden;
 }
 
-/* =====================================================
+/* =========================================
    MESSAGE
-===================================================== */
+========================================= */
 
 .message {
     position: relative;
@@ -824,15 +639,14 @@ body::before {
     color: #29231e;
 }
 
-/* =====================================================
+/* =========================================
    SMALL PHONES
-===================================================== */
+========================================= */
 
 @media (max-width: 390px) {
 
     .card {
         width: 95vw;
-
         height: 70vh;
 
         grid-template-columns:
@@ -852,22 +666,18 @@ body::before {
             24px 16px 24px 19px;
     }
 
-    .tulip {
-        transform:
-            scale(.84)
-            rotate(-2deg);
+    .tulip-image {
+        width: 82%;
     }
 
     .message .opening {
         font-size: 16.5px;
-
         margin-bottom: 15px;
     }
 
     .message .body,
     .message .realization {
         font-size: 14px;
-
         line-height: 1.24;
     }
 
@@ -877,14 +687,13 @@ body::before {
 
     .message .final {
         font-size: 26px;
-
         margin-top: 18px;
     }
 }
 
-/* =====================================================
+/* =========================================
    SHORT IPHONE SCREENS
-===================================================== */
+========================================= */
 
 @media (max-height: 720px) {
 
@@ -897,10 +706,8 @@ body::before {
         padding-bottom: 20px;
     }
 
-    .tulip {
-        transform:
-            scale(.78)
-            rotate(-2deg);
+    .tulip-image {
+        width: 76%;
     }
 
     .message .opening {
@@ -916,9 +723,9 @@ body::before {
     }
 }
 
-/* =====================================================
+/* =========================================
    VERY SHORT / SMALL DEVICES
-===================================================== */
+========================================= */
 
 @media (max-width: 390px) and (max-height: 700px) {
 
@@ -929,6 +736,10 @@ body::before {
     .right-page {
         padding:
             18px 14px 18px 17px;
+    }
+
+    .tulip-image {
+        width: 80%;
     }
 
     .message .opening {
@@ -999,24 +810,12 @@ body::before {
 
         <div class="left-page">
 
-            <div class="tulip">
-
-                <div class="flower">
-
-                    <div class="petal back-left"></div>
-                    <div class="petal back-right"></div>
-                    <div class="petal center"></div>
-                    <div class="petal front-left"></div>
-                    <div class="petal front-right"></div>
-
-                </div>
-
-                <div class="stem"></div>
-
-                <div class="leaf one"></div>
-                <div class="leaf two"></div>
-
-            </div>
+            <img
+                src="white-tulip.png"
+                class="tulip-image"
+                alt=""
+                draggable="false"
+            >
 
         </div>
 
@@ -1064,10 +863,6 @@ body::before {
 
 <script>
 
-/* =====================================================
-   OPEN CARD
-===================================================== */
-
 const envelope =
     document.getElementById("envelope");
 
@@ -1099,7 +894,7 @@ function openCard() {
 }
 
 
-/* iPhone / Safari + Android */
+/* iPhone Safari + Android */
 
 envelope.addEventListener(
     "click",
@@ -1107,7 +902,7 @@ envelope.addEventListener(
 );
 
 
-/* keyboard accessibility */
+/* keyboard */
 
 envelope.addEventListener(
     "keydown",
